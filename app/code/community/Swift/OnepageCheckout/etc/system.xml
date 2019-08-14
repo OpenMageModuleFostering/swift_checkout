@@ -105,8 +105,91 @@
                             <show_in_store>1</show_in_store>
                         </comment>                        
                     </fields>
-                </general>                
-                <!-- <agreements translate="label" module="checkout">
+                </general>
+                <address_form translate="label comment">
+                    <label>Address Form Fields</label>
+                    <comment>Before modifying below settings, make sure that your payment/shipping provider does not require them</comment>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <company translate="label" module="checkout">
+                            <label>Company</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>onepagecheckout_adminhtml/system_config_source_addressOptions</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </company>
+                        <address translate="label" module="checkout">
+                            <label>Address</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>onepagecheckout_adminhtml/system_config_source_addressOptions</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </address>
+                        <city translate="label" module="checkout">
+                            <label>City</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>onepagecheckout_adminhtml/system_config_source_addressOptions</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </city>
+                        <country translate="label" module="checkout">
+                            <label>Country</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>onepagecheckout_adminhtml/system_config_source_addressOptions</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </country>
+                        <zip translate="label" module="checkout">
+                            <label>Zip/Postal Code</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>onepagecheckout_adminhtml/system_config_source_addressOptions</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </zip>
+                        <state translate="label" module="checkout">
+                            <label>State/Province</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>onepagecheckout_adminhtml/system_config_source_addressOptions</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </state>
+                        <phone translate="label" module="checkout">
+                            <label>Telephone</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>onepagecheckout_adminhtml/system_config_source_addressOptions</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </phone>
+                        <fax translate="label" module="checkout">
+                            <label>Fax</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>onepagecheckout_adminhtml/system_config_source_addressOptions</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fax>
+                    </fields>
+                </address_form>
+                <agreements translate="label" module="checkout">
                     <label>Terms and Conditions</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>40</sort_order>
@@ -115,7 +198,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                         <enabled translate="label">
-                            <label>Enable Terms and Conditions</label>
+                            <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>10</sort_order>
@@ -124,7 +207,7 @@
                             <show_in_store>1</show_in_store>
                         </enabled>
                         <output translate="label" module="onepagecheckout">
-                            <label>Output Type</label>
+                            <label>Display Mode</label>
                             <frontend_type>select</frontend_type>
                             <source_model>onepagecheckout_adminhtml/system_config_source_agreementOptions</source_model>
                             <sort_order>20</sort_order>
@@ -133,7 +216,7 @@
                             <show_in_store>1</show_in_store>
                         </output>
                     </fields>
-                </agreements> -->
+                </agreements>
             </groups>
         </onepagecheckout>
     </sections>
