@@ -15,10 +15,9 @@ class Swift_OnepageCheckout_Model_Type_Opcheckout
     public function __construct()
     {
         $this->_help_obj	= Mage::helper('checkout');
-        $this->_em_ex_msg = $this->_help_obj->__('This email adress is already registered. Please enter another email to register account or login using this email.');
+        $this->_em_ex_msg = $this->_help_obj->__('This email address is already registered. Please register with another email or login using this email.');
         $this->_check_sess = Mage::getSingleton('checkout/session');
-        $this->_quote_obj	= $this->_check_sess->getQuote();
-        
+        $this->_quote_obj	= $this->_check_sess->getQuote();        
         $this->_cust_sess = Mage::getSingleton('customer/session');
     }
 
@@ -113,26 +112,6 @@ class Swift_OnepageCheckout_Model_Type_Opcheckout
         if (!$customer || !$addresses)
         {
 			$result['equal'] = true;
-
-            /*if (Mage::getStoreConfig('onepagecheckout/geo_ip/country'))
-            {
-                $geoip = geoip_open(Mage::getBaseDir('lib').DS.'MaxMind/GeoIP/data/'.Mage::getStoreConfig('onepagecheckout/geo_ip/country_file'),GEOIP_STANDARD);
-                $country_id	= geoip_country_code_by_addr($geoip, Mage::helper('core/http')->getRemoteAddr());
-                $result['shipping']['country_id'] = $country_id; 
-                $result['billing']['country_id'] = $country_id;
-                geoip_close($geoip);
-            }
-            
-            if (Mage::getStoreConfig('onepagecheckout/geo_ip/city'))
-            {
-                $geoip = geoip_open(Mage::getBaseDir('lib').DS.'MaxMind/GeoIP/data/'.Mage::getStoreConfig('onepagecheckout/geo_ip/city_file'),GEOIP_STANDARD);
-                $record = geoip_record_by_addr($geoip, Mage::helper('core/http')->getRemoteAddr());
-                $result['shipping']['city']	= $record->city;
-                $result['billing']['city'] = $record->city;
-                $result['shipping']['postcode']	= $record->postal_code;
-                $result['billing']['postcode']	= $record->postal_code;
-                geoip_close($geoip);
-            }*/
             
             if (empty($result['shipping']['country_id']))
             {
@@ -447,7 +426,6 @@ class Swift_OnepageCheckout_Model_Type_Opcheckout
         		return $result;
         }
 
-        // fixed by Alex Calko for saving data to define property shipping method
         if(!$skip_save)        
 			$this->getQuote()->collectTotals()->save();
 
@@ -488,7 +466,6 @@ class Swift_OnepageCheckout_Model_Type_Opcheckout
             	return array('message' => $val_result, 'error' => 1);
         }
 
-        // fixed by Alex Calko for saving data to define property shipping method
         if(!$skip_save)        
 			$this->getQuote()->collectTotals()->save();
 
@@ -514,15 +491,13 @@ class Swift_OnepageCheckout_Model_Type_Opcheckout
     }
    
     /**
-     * Validate customer data and set some its data for further usage in quote
-     * Will return either true or array with error messages
+     * Validate customer data 
      *
      * @param array $data
      * @return true|array
      */
     protected function _validateCustomerData(array $data)
     {
-        /** @var $customerForm Mage_Customer_Model_Form */
         $customerForm = Mage::getModel('customer/form');
         $customerForm->setFormCode('checkout_register')
             ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
@@ -533,7 +508,6 @@ class Swift_OnepageCheckout_Model_Type_Opcheckout
             $customerForm->setEntity($customer);
             $customerData = $quote->getCustomer()->getData();
         } else {
-            /* @var $customer Mage_Customer_Model_Customer */
             $customer = Mage::getModel('customer/customer');
             $customerForm->setEntity($customer);
             $customerRequest = $customerForm->prepareRequest($data);
@@ -555,16 +529,12 @@ class Swift_OnepageCheckout_Model_Type_Opcheckout
         $customerForm->compactData($customerData);
 
         if ($quote->getCheckoutMethod() == self::REGISTER) {
-            // set customer password
             $customer->setPassword($customerRequest->getParam('customer_password'));
             $customer->setConfirmation($customerRequest->getParam('confirm_password'));
         } else {
-            // spoof customer password for guest
             $password = $customer->generatePassword();
             $customer->setPassword($password);
             $customer->setConfirmation($password);
-            // set NOT LOGGED IN group id explicitly,
-            // otherwise copyFieldset('customer_account', 'to_quote') will fill it with default group id value
             $customer->setGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
         }
 
@@ -577,14 +547,11 @@ class Swift_OnepageCheckout_Model_Type_Opcheckout
         }
 
         if ($quote->getCheckoutMethod() == self::REGISTER) {
-            // save customer encrypted password in quote
             $quote->setPasswordHash($customer->encryptPassword($customer->getPassword()));
         }
 
-        // copy customer/guest email to address
         $quote->getBillingAddress()->setEmail($customer->getEmail());
 
-        // copy customer data to quote
         Mage::helper('core')->copyFieldset('customer_account', 'to_quote', $customer, $quote);
 
         return true;

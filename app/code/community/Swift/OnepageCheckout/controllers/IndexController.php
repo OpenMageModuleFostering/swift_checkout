@@ -193,9 +193,7 @@ class Swift_OnepageCheckout_IndexController extends Mage_Checkout_Controller_Act
     {
         if ($this->_expireAjax() || !$this->getRequest()->isPost()) {
             return;
-        }
-		/*********** DISCOUNT CODES **********/
- 
+        } 
         $quote 				= $this->getOnepagecheckout()->getQuote();
         $couponData 		= $this->getRequest()->getPost('coupon', array());
         $processCoupon 		= $this->getRequest()->getPost('process_coupon', false);
@@ -229,9 +227,7 @@ class Swift_OnepageCheckout_IndexController extends Mage_Checkout_Controller_Act
 	                }
 	                
 	            }
-	        }
-        
-        /***********************************/ 
+	        }         
 	        
         $bill_data = $this->getRequest()->getPost('billing', array());
         $bill_data = $this->_filterPostData($bill_data);
@@ -288,7 +284,6 @@ class Swift_OnepageCheckout_IndexController extends Mage_Checkout_Controller_Act
 
         $check_shipping_diff	= false;
 
-        // check how many shipping methods exist
         $rates = Mage::getModel('sales/quote_address_rate')->getCollection()->setAddressFilter($this->getOnepagecheckout()->getQuote()->getShippingAddress()->getId())->toArray();
         if(count($rates['items'])==1)
         {
@@ -302,7 +297,6 @@ class Swift_OnepageCheckout_IndexController extends Mage_Checkout_Controller_Act
         else        
 			$check_shipping_diff	= true;
 
-// get prev shipping method
 		if($check_shipping_diff){
 			$shipping = $this->getOnepagecheckout()->getQuote()->getShippingAddress();
 			$shippingMethod_before = $shipping->getShippingMethod();
@@ -324,12 +318,10 @@ class Swift_OnepageCheckout_IndexController extends Mage_Checkout_Controller_Act
 	        else
 	        	unset($result['reload_totals']);
         }
-///////////////
 
         $result['update_section']['review'] = $this->_getReviewHtml();
 
         
-        /*********** DISCOUNT CODES **********/
     	if ($couponChanged) {
             if ($couponData['code'] == $quote->getCouponCode()) {
                 Mage::getSingleton('checkout/session')->addSuccess(
@@ -343,10 +335,7 @@ class Swift_OnepageCheckout_IndexController extends Mage_Checkout_Controller_Act
             $method = str_replace(' ', '', ucwords(str_replace('-', ' ', 'coupon-discount')));          
             $result['update_section']['coupon-discount'] = $this->{'_get' . $method . 'Html'}();
            
-        }
-        /************************************/
-        
-        
+        }               
         
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
@@ -453,7 +442,6 @@ class Swift_OnepageCheckout_IndexController extends Mage_Checkout_Controller_Act
         try {
             $bill_data = $this->_filterPostData($this->getRequest()->getPost('billing', array()));
             
-//			$result = $this->getOnepagecheckout()->saveBilling($bill_data,$this->getRequest()->getPost('billing_address_id', false));
 			$result = $this->getOnepagecheckout()->saveBilling($bill_data,$this->getRequest()->getPost('billing_address_id', false),true,true);
             if ($result)
             {
@@ -466,7 +454,6 @@ class Swift_OnepageCheckout_IndexController extends Mage_Checkout_Controller_Act
 
             if ((!$bill_data['use_for_shipping'] || !isset($bill_data['use_for_shipping'])) && !$this->getOnepagecheckout()->getQuote()->isVirtual())
             {
-//				$result = $this->getOnepagecheckout()->saveShipping($this->_filterPostData($this->getRequest()->getPost('shipping', array())),$this->getRequest()->getPost('shipping_address_id', false));
 				$result = $this->getOnepagecheckout()->saveShipping($this->_filterPostData($this->getRequest()->getPost('shipping', array())),$this->getRequest()->getPost('shipping_address_id', false), true, true);
                 if ($result)
                 {
