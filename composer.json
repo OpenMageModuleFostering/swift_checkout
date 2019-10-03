@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Swift_Checkout",
+    "name": "OpenMageModuleFostering\/Swift_Checkout",
     "type": "magento-module",
     "license": "OSL-v3.0",
     "homepage": "",
     "description": "Swift checkout is a custom Magento extension to allow users to have an easy and quick checkout process with a single click",
     "authors": [
-    {
-        "name": "Team php",
-        "email": "teamphp2013@gmail.com"
-    }
-],
+        {
+            "name": "Team php",
+            "email": "teamphp2013@gmail.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
