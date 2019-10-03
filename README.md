@@ -1,3 +1,5 @@
+
+
 ## Original Package Description
 
 Swift checkout is a custom Magento extension to allow users to have an easy and quick checkout process with a single click
